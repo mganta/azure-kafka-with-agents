@@ -33,7 +33,7 @@
   },
   "resources": [
     {
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2015-05-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyindex())]",
       "location": "[resourceGroup().location]",
@@ -57,7 +57,7 @@
       }
     },
     {
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2015-05-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
@@ -103,7 +103,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyindex(), '/install_zookeeper')]",
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2016-05-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyindex())]"
