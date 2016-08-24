@@ -119,7 +119,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash kafka-cluster-install.sh -z ',' 1 ',' -c ', variables('vmCount'),' -i ', variables('addprefix'))]"
+          "commandToExecute": "[concat('sudo bash kafka-cluster-install.sh -z',' 1 ',' -c ', variables('vmCount'),' -i ', variables('addprefix'))]"
         }
       }
     }
