@@ -91,7 +91,6 @@
           "computerName": "[concat(variables('vmName'), copyindex())]",
           "adminUsername": "[variables('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
-
         },
         "storageProfile":
         {
