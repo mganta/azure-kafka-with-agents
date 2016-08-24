@@ -9,7 +9,7 @@
       "value": "adminuser"
     },
     "adminPassword": {
-      "value": "azure@1234"
+      "value": "azure(s16"
     },
     "domainName": {
       "value": "kafka-md-iaas"
