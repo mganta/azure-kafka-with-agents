@@ -52,9 +52,9 @@ log()
 	echo "$1"
 }
 
-log "Begin execution of kafka script extension on ${HOSTNAME}"
+log "Begin execution of kafka script extension on `hostname`"
 
-if [ "${UID}" -ne 0 ];
+if [ "`whoami`" != "root" ];
 then
     log "Script executed without root permissions"
     echo "You must be root to run this program." >&2
@@ -66,15 +66,15 @@ bash vm-disk-utils-0.1.sh -s
 
 # TEMP FIX - Re-evaluate and remove when possible
 # This is an interim fix for hostname resolution in current VM
-grep -q "${HOSTNAME}" /etc/hosts
-if [ $? -eq $SUCCESS ];
+grep -q `hostname` /etc/hosts
+if [ $? -eq 0 ];
 then
-  echo "${HOSTNAME}found in /etc/hosts"
+  echo "hostname found in /etc/hosts"
 else
-  echo "${HOSTNAME} not found in /etc/hosts"
+  echo "hostname not found in /etc/hosts"
   # Append it to the hsots file if not there
-  echo "127.0.0.1 $(hostname)" >> /etc/hosts
-  log "hostname ${HOSTNAME} added to /etc/hosts"
+  echo "127.0.0.1 `hostname`" >> /etc/hosts
+  log "hostname  added to /etc/hosts"
 fi
 
 #Script Parameters
@@ -127,7 +127,7 @@ install_java()
    # add-apt-repository -y ppa:webupd8team/java
    # apt-get -y update
    # echo debconf shared/accepted-oracle-license-v1-1 select true | sudo
-  # debconf-set-selections
+   # debconf-set-selections
    # echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo
    #debconf-set-selections
     apt-get -y install openjdk-8-jre-headless
@@ -138,7 +138,8 @@ install_java()
 
 expand_ip_range_for_server_properties() {
     IFS='-' read -a HOST_IPS <<< "$1"
-    for (( n=0 ; n<("${HOST_IPS[1]}"+0) ; n++))
+    k="${HOST_IPS[1]}"+0
+    for (( n=0 ; n<$k ; n++))
     do
         echo "server.$(expr ${n} + 1)=${HOST_IPS[0]}${n}:2888:3888" >> zookeeper-3.4.6/conf/zoo.cfg       
     done
@@ -151,7 +152,8 @@ expand_ip_range() {
 
     declare -a EXPAND_STATICIP_RANGE_RESULTS=()
 
-    for (( n=0 ; n<("${HOST_IPS[1]}"+0) ; n++))
+    k="${HOST_IPS[1]}"+0
+    for (( n=0 ; n<$k ; n++))
     do
         HOST="${HOST_IPS[0]}${n}:${ZOOKEEPER_PORT}"
                 EXPAND_STATICIP_RANGE_RESULTS+=($HOST)
