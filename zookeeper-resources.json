@@ -62,7 +62,8 @@
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
+      "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "copy": {
         "name": "vmCopyLoop",
