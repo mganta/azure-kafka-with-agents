@@ -82,7 +82,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets',parameters('machineSettingsbroker').availabilitySet))]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('machineSettingsbroker').availabilitySet)]"
         },
         "hardwareProfile": {
           "vmSize": "[parameters('machineSettingsbroker').vmSize]"
