@@ -63,11 +63,12 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('availabilitySetSettings').name]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "properties": {
         "platformFaultDomainCount": "[parameters('availabilitySetSettings').fdCount]",
-        "platformUpdateDomainCount": "[parameters('availabilitySetSettings').udCount]"
+        "platformUpdateDomainCount": "[parameters('availabilitySetSettings').udCount]",
+        "managed": "true"
       }
     }
   ],

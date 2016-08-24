@@ -57,7 +57,7 @@
       }
     },
     {
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
@@ -83,13 +83,17 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "osdisk",
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageSettings').name, parameters('storageSettings').map[copyindex()],'.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          }
+            "name": "[concat('osDisk', copyIndex())]",
+            "createOption": "fromImage"
+          },
+          "dataDisks": [
+            {
+              "lun": 0,
+              "name": "[concat('zkdisk-0-', copyIndex())]",
+              "diskSizeGB": "1023",
+              "createOption": "empty"
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
