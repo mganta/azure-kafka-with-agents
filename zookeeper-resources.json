@@ -57,7 +57,7 @@
       }
     },
     {
-      "apiVersion": "2015-05-01",
+      "apiVersion": "2016-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",

@@ -63,7 +63,7 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('availabilitySetSettings').name]",
-      "apiVersion": "2015-05-01",
+      "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "properties": {
         "platformFaultDomainCount": "[parameters('availabilitySetSettings').fdCount]",
