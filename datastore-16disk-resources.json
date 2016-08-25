@@ -68,6 +68,17 @@
       }
     },
     {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "availabilitySetKafkaBrokers",
+      "apiVersion": "[variables('computeResouresApiVersion')]",
+      "location":"[resourceGroup().location]",
+      "properties": {
+        "platformFaultDomainCount": "3",
+        "platformUpdateDomainCount": "3",
+        "managed": "true"
+      }
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyindex())]",
@@ -82,7 +93,7 @@
       },
       "properties": {
         "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('machineSettingsbroker').availabilitySet)]"
+          "id": "[resourceId('Microsoft.Compute/availabilitySets','availabilitySetKafkaBrokers')]"
         },
         "hardwareProfile": {
           "vmSize": "[parameters('machineSettingsbroker').vmSize]"
@@ -210,7 +221,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyindex(), '/install_kafka')]",
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyindex())]"

@@ -57,13 +57,12 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2016-03-30",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
-      "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]"
       ],
       "copy": {
         "name": "vmCopyLoop",
@@ -84,17 +83,13 @@
         "storageProfile": {
           "imageReference": "[parameters('osSettings').imageReference]",
           "osDisk": {
-            "name": "[concat('osDisk', copyIndex())]",
-            "createOption": "fromImage"
-          },
-          "dataDisks": [
-            {
-              "lun": 0,
-              "name": "[concat('zkdisk-0-', copyIndex())]",
-              "diskSizeGB": "1023",
-              "createOption": "empty"
-            }
-          ]
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageSettings').name, parameters('storageSettings').map[copyindex()],'.blob.core.windows.net/vhds/', variables('vmName'), copyindex(), '-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
         },
         "networkProfile": {
           "networkInterfaces": [
@@ -124,7 +119,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('sudo bash kafka-cluster-install.sh -z',' 1 ',' -c ', variables('vmCount'),' -i ', variables('addprefix'))]"
+          "commandToExecute": "[concat('bash kafka-cluster-install.sh -z ',' 1 ',' -c ', variables('vmCount'),' -i ', variables('addprefix'))]"
         }
       }
     }

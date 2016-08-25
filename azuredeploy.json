@@ -170,8 +170,7 @@
     "availabilitySetSettings": {
       "name": "kafkaAvailabilitySet",
       "fdCount": 3,
-      "udCount": 5,
-      "managed": "true"
+      "udCount": 5
     }
   },
   "resources": [
