@@ -62,7 +62,7 @@ then
 fi
 
 #Format the data disk
-bash vm-disk-utils-0.1.sh -s
+#bash vm-disk-utils-0.1.sh -s
 
 # TEMP FIX - Re-evaluate and remove when possible
 # This is an interim fix for hostname resolution in current VM
@@ -74,6 +74,7 @@ else
   echo "hostname not found in /etc/hosts"
   # Append it to the hsots file if not there
   echo "127.0.0.1 `hostname`" >> /etc/hosts
+  echo "127.0.0.1 localhost `hostname`" >> /etc/hosts
   log "hostname  added to /etc/hosts"
 fi
 
@@ -222,7 +223,7 @@ install_kafka()
 	license="Apache Software License 2.0"
 	package_version="-1"
 	src_package="kafka_${kafkaversion}-${version}.tgz"
-	download_url=http://apache.cs.utah.edu/kafka/${version}/${src_package} 
+	download_url=http://apache.cs.utah.edu/kafka/${version}/${src_package}
 
 	rm -rf kafka
 	mkdir -p kafka
