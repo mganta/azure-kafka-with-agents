@@ -70,7 +70,7 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "availabilitySetKafkaBrokers",
-      "apiVersion": "[variables('computeResouresApiVersion')]",
+      "apiVersion": "2016-04-30-preview",
       "location":"[resourceGroup().location]",
       "properties": {
         "platformFaultDomainCount": "3",
