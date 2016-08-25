@@ -105,7 +105,13 @@
         },
         "storageProfile":
         {
-          "imageReference": "[parameters('osSettings').imageReference]",
+          "imageReference":
+          {
+            "publisher": "[parameters('osSettings').imageReference.publisher]",
+            "offer": "[parameters('osSettings').imageReference.offer]",
+            "sku": "[parameters('osSettings').imageReference.sku]",
+            "version": "latest"
+          },
           "osDisk": {
             "name": "[concat('osDisk', copyIndex())]",
             "createOption": "fromImage"
