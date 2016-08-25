@@ -135,7 +135,7 @@
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'kafka-cluster-install.sh')]",
-        "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
+        "[concat(variables('templateBaseUrl'), 'vm-disk-utils-0.1.sh')]"
       ],
       "imageReference": {
         "publisher": "Canonical",
