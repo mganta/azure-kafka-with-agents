@@ -183,7 +183,7 @@ install_zookeeper()
 	# OLD Test echo "server.1=${ZOOKEEPER_IP_PREFIX}:2888:3888" >> zookeeper-3.4.6/conf/zoo.cfg
 	$(expand_ip_range_for_server_properties "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}")
 
-	echo $(($1+1)) >> /var/lib/zookeeper/myid
+	echo $((${BROKER_ID}+1)) >> /var/lib/zookeeper/myid
 	echo "export JVMFLAGS=\"-Xmx8G -Xms2G\"" >> zookeeper-3.4.6/conf/java.env
 
 	zookeeper-3.4.6/bin/zkServer.sh start
@@ -239,7 +239,7 @@ install_kafka()
 	
 	sed -r -i "s/(broker.id)=(.*)/\1=${BROKER_ID}/g" config/server.properties 
 	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties 
-	sed -r -i "s/(log.dirs)=(.*)/\1=${KAFKADIR}/g" config/server.properties
+	sed -r -i "s/(log.dirs)=(.*)/\1=${KAFKADIRSED}/g" config/server.properties
 
 	chmod u+x /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh
 	export KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"
