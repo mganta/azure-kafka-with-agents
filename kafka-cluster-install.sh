@@ -62,7 +62,8 @@ then
 fi
 
 #Format the data disk
-bash vm-disk-utils-0.1.sh -s > /var/log/disk_mounts.log
+#ubuntu 16.04 bug https://bugs.launchpad.net/ubuntu/+source/mdadm/+bug/1568097
+bash vm-disk-utils-0.1.sh  > /var/log/disk_mounts.log
 
 # TEMP FIX - Re-evaluate and remove when possible
 # This is an interim fix for hostname resolution in current VM
@@ -236,8 +237,11 @@ install_kafka()
 	cd kafka_${kafkaversion}-${version}
 	
 	sed -r -i "s/(broker.id)=(.*)/\1=${BROKER_ID}/g" config/server.properties 
-	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties 
-	sed -r -i "s/(log.dirs)=(.*)/\1=${KAFKADIRSED}/g" config/server.properties
+	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties
+
+  MOUNT_DIRS=`ls -1d /datadisks/disk* 2>/dev/null| sort --version-sort`
+  LOG_DIRS=`echo $DIRS| sed 's| |,|g'`
+	sed -r -i "s|(log.dirs)=(.*)|\1=${LOG_DIRS}|g" config/server.properties
 
 	chmod u+x /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh
 	export KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"
