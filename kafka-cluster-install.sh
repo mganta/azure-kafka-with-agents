@@ -62,9 +62,7 @@ then
 fi
 
 #Format the data disk
-bash vm-disk-utils-0.1.sh -s
-
-sleep 30s
+bash vm-disk-utils-0.1.sh -s > /var/log/disk_mounts.log
 
 # TEMP FIX - Re-evaluate and remove when possible
 # This is an interim fix for hostname resolution in current VM
