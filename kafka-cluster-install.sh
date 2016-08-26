@@ -240,7 +240,7 @@ install_kafka()
 	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties
 
   MOUNT_DIRS=`ls -1d /datadisks/disk* 2>/dev/null| sort --version-sort`
-  LOG_DIRS=`echo $DIRS| sed 's| |,|g'`
+  LOG_DIRS=`echo ${MOUNT_DIRS}| sed 's| |,|g'`
 	sed -r -i "s|(log.dirs)=(.*)|\1=${LOG_DIRS}|g" config/server.properties
 
 	chmod u+x /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh
