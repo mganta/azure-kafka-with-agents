@@ -234,6 +234,7 @@ scan_partition_format()
 	    add_to_fstab "${UUID}" "${MOUNTPOINT}"
 	    echo "Mounting disk ${PARTITION} on ${MOUNTPOINT}"
 	    mount "${MOUNTPOINT}"
+	    rm -rf ${MOUNTPOINT}/lost+found
 	done
 }
 
