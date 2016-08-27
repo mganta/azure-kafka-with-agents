@@ -268,6 +268,6 @@ else
 	#Install kafka
 	#-----------------------
 	mkdir ${KAFKADIR}
-	setup_datadisks
+	#setup_datadisks
 	install_kafka
 fi
