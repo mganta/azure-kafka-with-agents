@@ -242,6 +242,8 @@ install_kafka()
   MOUNT_DIRS=`ls -1d /datadisks/disk* 2>/dev/null| sort --version-sort`
   LOG_DIRS=`echo ${MOUNT_DIRS}| sed 's| |,|g'`
 	sed -r -i "s|(log.dirs)=(.*)|\1=${LOG_DIRS}|g" config/server.properties
+	LISTEN_IP=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
+	echo "listeners=PLAINTEXT://${LISTEN_IP}:9092" >> config/server.properties
 
 	chmod u+x /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh
 	export KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"
