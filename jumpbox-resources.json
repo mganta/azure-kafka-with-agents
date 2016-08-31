@@ -28,14 +28,19 @@
     "nicName": "[concat(parameters('commonSettings').namespace, 'nic')]",
     "vmName": "[concat(parameters('commonSettings').namespace, 'vm')]",
     "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
-    "vmSize": "Standard_DS4_V2"
+    "vmSize": "Standard_DS4_V2",
+    "vmCount": "3"
   },
   "resources": [
     {
       "apiVersion": "2016-07-01",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIpName')]",
+      "name": "[concat(variables(''publicIpName''), copyindex())]",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
@@ -46,10 +51,14 @@
     {
       "apiVersion": "2016-07-01",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('nicName')]",
+      "name": "[concat(variables('nicName'), copyindex())]",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(variables(''publicIpName''), copyindex()))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -58,7 +67,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables(''publicIpName''), copyindex()))]"
               },
               "subnet": {
                 "id": "[variables('subnetRef')]"
@@ -71,11 +80,15 @@
     {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
+      "name": "[concat(variables('vmName'), copyindex())]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', concat(variables(''nicName''), copyindex()))]"
       ],
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
@@ -90,7 +103,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/', variables('vmName'), '-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/', concat(variables(''vmName''),copyindex()), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -99,7 +112,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables(''nicName''), copyindex()))]"
             }
           ],
           "inputEndpoints": [
@@ -108,6 +121,13 @@
               "endpointName": "SSH",
               "privatePort": 22,
               "publicPort": 22,
+              "protocol": "tcp"
+            },
+            {
+              "enableDirectServerReturn": "False",
+              "endpointName": "UI",
+              "privatePort": 3000,
+              "publicPort": 3000,
               "protocol": "tcp"
             }
           ]
