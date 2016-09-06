@@ -135,6 +135,16 @@ install_java()
     apt-get -y install openjdk-8-jre-headless
 }
 
+# Setup system settings
+update_system_settings()
+{
+	echo "net.core.wmem_max=12582912" >> /etc/sysctl.conf
+	echo "net.core.rmem_max=12582912" >> /etc/sysctl.conf
+	echo "net.ipv4.tcp_rmem= 10240 87380 12582912" >> /etc/sysctl.conf
+  echo "net.ipv4.tcp_wmem= 10240 87380 12582912" >> /etc/sysctl.conf
+  sysctl -p
+}
+
 # Expand a list of successive IP range defined by a starting address prefix (e.g. 10.0.0.1) and the number of machines in the range
 # 10.0.0.1-3 would be converted to "10.0.0.10 10.0.0.11 10.0.0.12"
 
@@ -239,11 +249,17 @@ install_kafka()
 	sed -r -i "s/(broker.id)=(.*)/\1=${BROKER_ID}/g" config/server.properties 
 	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties
 
+	sed -r -i "s/(socket.send.buffer.bytes)=(.*)/\1=1048576/g" config/server.properties
+	sed -r -i "s/(socket.receive.buffer.bytes)=(.*)/\1=1048576/g" config/server.properties
+	sed -r -i "s/(log.segment.bytes)=(.*)/\1=2147483647/g" config/server.properties
+	sed -r -i "s/(num.network.threads)=(.*)/\1=8/g" config/server.properties
+
   MOUNT_DIRS=`ls -1d /datadisks/disk* 2>/dev/null| sort --version-sort`
   LOG_DIRS=`echo ${MOUNT_DIRS}| sed 's| |,|g'`
 	sed -r -i "s|(log.dirs)=(.*)|\1=${LOG_DIRS}|g" config/server.properties
 	LISTEN_IP=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
 	echo "listeners=PLAINTEXT://${LISTEN_IP}:9092" >> config/server.properties
+	echo "delete.topic.enable=true" >> config/server.properties
 
 	chmod u+x /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh
 	export KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"
@@ -254,6 +270,9 @@ install_kafka()
 #########################
 #NOTE: These first three could be changed to run in parallel
 #      Future enhancement - (export the functions and use background/wait to run in parallel)
+
+
+update_system_settings
 
 #Install  Java
 #------------------------
