@@ -113,103 +113,103 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat('osDisk', copyIndex())]",
+            "name": "[concat('osDisk', variables('vmName'), copyIndex())]",
             "createOption": "fromImage"
           },
           "dataDisks": [
           {
            "lun": 0,
-            "name": "[concat('manageddisk-0-', copyIndex())]",
+            "name": "[concat('md-0-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
            "lun": 1,
-            "name": "[concat('manageddisk-1-', copyIndex())]",
+            "name": "[concat('md-1-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 2,
-            "name": "[concat('manageddisk-2-', copyIndex())]",
+            "name": "[concat('md-2-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 3,
-            "name": "[concat('manageddisk-3-', copyIndex())]",
+            "name": "[concat('md-3-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 4,
-            "name": "[concat('manageddisk-4-', copyIndex())]",
+            "name": "[concat('md-4-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 5,
-            "name": "[concat('manageddisk-5-', copyIndex())]",
+            "name": "[concat('md-5-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 6,
-            "name": "[concat('manageddisk-6-', copyIndex())]",
+            "name": "[concat('md-6-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 7,
-            "name": "[concat('manageddisk-7-', copyIndex())]",
+            "name": "[concat('md-7-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 8,
-            "name": "[concat('manageddisk-8-', copyIndex())]",
+            "name": "[concat('md-8-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 9,
-            "name": "[concat('manageddisk-9-', copyIndex())]",
+            "name": "[concat('md-9-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 10,
-            "name": "[concat('manageddisk-10-', copyIndex())]",
+            "name": "[concat('md-10-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 11,
-            "name": "[concat('manageddisk-11-', copyIndex())]",
+            "name": "[concat('md-11-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 12,
-            "name": "[concat('manageddisk-12-', copyIndex())]",
+            "name": "[concat('md-12-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 13,
-            "name": "[concat('manageddisk-13-', copyIndex())]",
+            "name": "[concat('md-13-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 14,
-            "name": "[concat('manageddisk-14-', copyIndex())]",
+            "name": "[concat('md-14-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           },
           {
             "lun": 15,
-            "name": "[concat('manageddisk-15-', copyIndex())]",
+            "name": "[concat('md-15-', copyIndex())]",
             "diskSizeGB": "1023",
             "createOption": "empty"
           }
