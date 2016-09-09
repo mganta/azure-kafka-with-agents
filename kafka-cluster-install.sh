@@ -138,11 +138,12 @@ install_java()
 # Setup system settings
 update_system_settings()
 {
-	echo "net.core.wmem_max=25165824" >> /etc/sysctl.conf
-	echo "net.core.rmem_max=25165824" >> /etc/sysctl.conf
-	echo "net.ipv4.tcp_rmem= 10240 87380 25165824" >> /etc/sysctl.conf
-        echo "net.ipv4.tcp_wmem= 10240 87380 25165824" >> /etc/sysctl.conf
+	echo "net.core.wmem_max=33554432" >> /etc/sysctl.conf
+	echo "net.core.rmem_max=33554432" >> /etc/sysctl.conf
+	echo "net.ipv4.tcp_rmem= 10240 87380 33554432" >> /etc/sysctl.conf
+        echo "net.ipv4.tcp_wmem= 10240 87380 33554432" >> /etc/sysctl.conf
   sysctl -p
+  ifconfig eth0 txqueuelen 5000
 }
 
 # Expand a list of successive IP range defined by a starting address prefix (e.g. 10.0.0.1) and the number of machines in the range
