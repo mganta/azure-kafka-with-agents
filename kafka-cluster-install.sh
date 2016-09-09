@@ -138,10 +138,12 @@ install_java()
 # Setup system settings
 update_system_settings()
 {
-	echo "net.core.wmem_max=33554432" >> /etc/sysctl.conf
-	echo "net.core.rmem_max=33554432" >> /etc/sysctl.conf
+	echo "net.core.wmem_max=67108864" >> /etc/sysctl.conf
+	echo "net.core.rmem_max=67108864" >> /etc/sysctl.conf
 	echo "net.ipv4.tcp_rmem= 10240 87380 33554432" >> /etc/sysctl.conf
         echo "net.ipv4.tcp_wmem= 10240 87380 33554432" >> /etc/sysctl.conf
+        echo "net.core.netdev_max_backlog=30000" >> /etc/sysctl.conf
+        echo "net.ipv4.tcp_max_syn_backlog=4096" >> /etc/sysctl.conf
   sysctl -p
   ifconfig eth0 txqueuelen 5000
 }
@@ -250,8 +252,8 @@ install_kafka()
 	sed -r -i "s/(broker.id)=(.*)/\1=${BROKER_ID}/g" config/server.properties 
 	sed -r -i "s/(zookeeper.connect)=(.*)/\1=$(join , $(expand_ip_range "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}"))/g" config/server.properties
 
-	sed -r -i "s/(socket.send.buffer.bytes)=(.*)/\1=10485760/g" config/server.properties
-	sed -r -i "s/(socket.receive.buffer.bytes)=(.*)/\1=10485760/g" config/server.properties
+	sed -r -i "s/(socket.send.buffer.bytes)=(.*)/\1=33554432/g" config/server.properties
+	sed -r -i "s/(socket.receive.buffer.bytes)=(.*)/\1=33554432/g" config/server.properties
 	sed -r -i "s/(log.segment.bytes)=(.*)/\1=2147483647/g" config/server.properties
 	sed -r -i "s/(num.network.threads)=(.*)/\1=8/g" config/server.properties
 
