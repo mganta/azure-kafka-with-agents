@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountNamePrefix": {
-      "value": "kafkamd"
+      "value": "kafkmd"
     },
     "adminUsername": {
-      "value": "adminuser"
+      "value": "admin"
     },
     "adminPassword": {
-      "value": "azure_216"
+      "value": "azure_000"
     },
     "domainName": {
       "value": "kafka-md-iaas"
