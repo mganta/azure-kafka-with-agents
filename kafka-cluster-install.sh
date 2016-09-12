@@ -156,7 +156,7 @@ expand_ip_range_for_server_properties() {
     k="${HOST_IPS[1]}"+0
     for (( n=0 ; n<$k ; n++))
     do
-        echo "server.$(expr ${n} + 1)=${HOST_IPS[0]}${n}:2888:3888" >> zookeeper-3.4.6/conf/zoo.cfg       
+        echo "server.$(expr ${n} + 1)=${HOST_IPS[0]}${n}:2888:3888" >> zookeeper-3.4.8/conf/zoo.cfg       
     done
 }
 
@@ -182,23 +182,24 @@ install_zookeeper()
 {
 	mkdir -p /var/lib/zookeeper
 	cd /var/lib/zookeeper
-	wget "http://apache.cs.utah.edu/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz"
-	tar -xvf "zookeeper-3.4.6.tar.gz"
+	wget "http://apache.cs.utah.edu/zookeeper/zookeeper-3.4.8/zookeeper-3.4.8.tar.gz"
+	tar -xvf "zookeeper-3.4.8.tar.gz"
 
-	touch zookeeper-3.4.6/conf/zoo.cfg
+	touch zookeeper-3.4.8/conf/zoo.cfg
 
-	echo "tickTime=2000" >> zookeeper-3.4.6/conf/zoo.cfg
-	echo "dataDir=/var/lib/zookeeper" >> zookeeper-3.4.6/conf/zoo.cfg
-	echo "clientPort=2181" >> zookeeper-3.4.6/conf/zoo.cfg
-	echo "initLimit=5" >> zookeeper-3.4.6/conf/zoo.cfg
-	echo "syncLimit=2" >> zookeeper-3.4.6/conf/zoo.cfg
-	# OLD Test echo "server.1=${ZOOKEEPER_IP_PREFIX}:2888:3888" >> zookeeper-3.4.6/conf/zoo.cfg
+	echo "tickTime=2000" >> zookeeper-3.4.8/conf/zoo.cfg
+	echo "dataDir=/var/lib/zookeeper" >> zookeeper-3.4.8/conf/zoo.cfg
+	echo "clientPort=2181" >> zookeeper-3.4.8/conf/zoo.cfg
+	echo "initLimit=5" >> zookeeper-3.4.8/conf/zoo.cfg
+	echo "syncLimit=2" >> zookeeper-3.4.8/conf/zoo.cfg
+	echo "maxClientCnxns=0" >> zookeeper-3.4.8/conf/zoo.cfg
+	# OLD Test echo "server.1=${ZOOKEEPER_IP_PREFIX}:2888:3888" >> zookeeper-3.4.8/conf/zoo.cfg
 	$(expand_ip_range_for_server_properties "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}")
 
 	echo $((${BROKER_ID}+1)) >> /var/lib/zookeeper/myid
-	echo "export JVMFLAGS=\"-Xmx8G -Xms2G\"" >> zookeeper-3.4.6/conf/java.env
+	echo "export JVMFLAGS=\"-Xmx8G -Xms2G\"" >> zookeeper-3.4.8/conf/java.env
 
-	zookeeper-3.4.6/bin/zkServer.sh start
+	zookeeper-3.4.8/bin/zkServer.sh start
 }
 
 # Setup datadisks
