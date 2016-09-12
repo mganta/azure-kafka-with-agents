@@ -256,6 +256,7 @@ install_kafka()
 	sed -r -i "s/(socket.receive.buffer.bytes)=(.*)/\1=33554432/g" config/server.properties
 	sed -r -i "s/(log.segment.bytes)=(.*)/\1=2147483647/g" config/server.properties
 	sed -r -i "s/(num.network.threads)=(.*)/\1=24/g" config/server.properties
+	sed -r -i "s/(num.io.threads)=(.*)/\1=16/g" config/server.properties
 
   MOUNT_DIRS=`ls -1d /datadisks/disk* 2>/dev/null| sort --version-sort`
   LOG_DIRS=`echo ${MOUNT_DIRS}| sed 's| |,|g'`
