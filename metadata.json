@@ -1,7 +1,0 @@
-{
-  "itemDisplayName": "Kafka on Ubuntu VMs",
-  "description": "kafka on managed disks",
-  "summary": "Kafka stream-replication with multiple broker servers and a publicly accessible jumpbox VM",
-  "githubUsername": "CognosysTech",
-  "dateUpdated": "2016-03-08"
-}
