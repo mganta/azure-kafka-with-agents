@@ -141,7 +141,8 @@
     "osSettings": {
       "scripts": [
         "[concat(variables('templateBaseUrl'), 'kafka-cluster-install.sh')]",
-        "[concat(variables('templateBaseUrl'), 'vm-disk-utils-0.1.sh')]"
+        "[concat(variables('templateBaseUrl'), 'vm-disk-utils-0.1.sh')]",
+        "[concat(variables('templateBaseUrl'), 'datadog_install.sh')]"
       ],
       "imageReference": {
         "publisher": "Canonical",
