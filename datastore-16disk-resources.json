@@ -1,0 +1,283 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "commonSettings": {
+      "type": "object"
+    },
+    "osSettings": {
+      "type": "object"
+    },
+    "storageSettings": {
+      "type": "object"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "machineSettingsbroker": {
+      "type": "object"
+    },
+    "agentSettings": {
+      "type": "securestring"
+    },
+    "subnet": {
+      "type": "object"
+    }
+  },
+  "variables": {
+    "namespace": "[parameters('commonSettings').namespace]",
+    "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
+    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'))]",
+    "vmName": "[concat(variables('namespace'), 'vm')]",
+    "nicName": "[concat(variables('namespace'), 'nic')]",
+    "adminUsername": "[parameters('commonSettings').adminUsername]",
+    "vmCount": "[parameters('machineSettingsbroker').vmCount]",
+    "zCount": "[parameters('machineSettingsbroker').zookeeperCount]",
+    "zSubnet": "[parameters('machineSettingsbroker').zookeeperSubnet]",
+    "addprefix": "[parameters('machineSettingsbroker').addprefix]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "Premium_LRS"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), copyindex())]",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[concat(variables('addprefix'), copyindex())]",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "availabilitySetKafkaBrokers",
+      "apiVersion": "2016-04-30-preview",
+      "location":"[resourceGroup().location]",
+      "properties": {
+        "platformFaultDomainCount": "2",
+        "platformUpdateDomainCount": "2",
+        "managed": "true"
+      }
+    },
+    {
+      "apiVersion": "2016-04-30-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('vmName'), copyindex())]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+      ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets','availabilitySetKafkaBrokers')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSettingsbroker').vmSize]"
+        },
+        "osProfile": {
+          "computerName": "[concat(variables('vmName'), copyindex())]",
+          "adminUsername": "[variables('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile":
+        {
+          "imageReference":
+          {
+            "publisher": "[parameters('osSettings').imageReference.publisher]",
+            "offer": "[parameters('osSettings').imageReference.offer]",
+            "sku": "[parameters('osSettings').imageReference.sku]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat('osDisk', variables('vmName'), copyIndex())]",
+            "createOption": "fromImage"
+          },
+          "dataDisks": [
+          {
+           "lun": 0,
+            "name": "[concat('md-0-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+           "lun": 1,
+            "name": "[concat('md-1-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 2,
+            "name": "[concat('md-2-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 3,
+            "name": "[concat('md-3-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 4,
+            "name": "[concat('md-4-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 5,
+            "name": "[concat('md-5-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 6,
+            "name": "[concat('md-6-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 7,
+            "name": "[concat('md-7-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 8,
+            "name": "[concat('md-8-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 9,
+            "name": "[concat('md-9-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 10,
+            "name": "[concat('md-10-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 11,
+            "name": "[concat('md-11-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 12,
+            "name": "[concat('md-12-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 13,
+            "name": "[concat('md-13-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 14,
+            "name": "[concat('md-14-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          },
+          {
+            "lun": 15,
+            "name": "[concat('md-15-', copyIndex())]",
+            "diskSizeGB": "1023",
+            "createOption": "empty"
+          }
+        ]
+      },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), copyindex()) )]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), copyindex(), '/install_kafka')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyindex())]"
+      ],
+      "copy": {
+        "name": "scriptCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.5",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": "[parameters('osSettings').scripts]",
+          "commandToExecute": "[concat('sudo bash kafka-cluster-install.sh -b', copyindex(),' -c ', variables('zCount'),' -i ', variables('zSubnet'))]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), copyindex(), '/install_agent')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyindex())]"
+      ],
+      "copy": {
+        "name": "scriptCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.5",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": "[parameters('osSettings').scripts]",
+          "commandToExecute": "[concat('bash install_agent.sh', parameters('agentSettings'))]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "brokerip": {
+      "value": "[reference(concat(variables('nicName'),0)).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    }
+  }
+}
