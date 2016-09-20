@@ -35,7 +35,7 @@
     },
     "tshirtSize": {
       "type": "string",
-      "defaultValue": "Medium",
+      "defaultValue": "XLarge",
       "allowedValues": [
         "Medium",
         "Large",
@@ -65,7 +65,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/mganta/kafka-ubuntu-multidisks/master/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/mganta/azure-kafka-with-agents/master/",
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
     "tshirtSizeMedium": {
       "vmSize": "Standard_DS4_V2",
