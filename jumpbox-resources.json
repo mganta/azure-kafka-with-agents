@@ -156,7 +156,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash datadog_agent.sh ', parameters('agentSettings'))]"
+          "commandToExecute": "[concat('bash datadog_install.sh ', parameters('agentSettings'))]"
         }
       }
     }
