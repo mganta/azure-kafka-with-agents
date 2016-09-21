@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DD_API_KEY=$1
+export DD_API_KEY=$1
 
 wget https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/install_agent.sh
 chmod 755 install_agent.sh
