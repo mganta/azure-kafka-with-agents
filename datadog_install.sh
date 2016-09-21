@@ -6,13 +6,13 @@ export DD_API_KEY=$1
 #$chmod 755 install_agent.sh
 #./install_agent.sh
 
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get install -y  apt-transport-https
 
 echo 'deb https://apt.datadoghq.com/ stable main' > /etc/apt/sources.list.d/datadog.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C7A7DA52
 
-apt-get -y update
+apt-get  update
 apt-get install -y datadog-agent
 sed 's/api_key:.*/api_key: ${DD_API_KEY}/' /etc/dd-agent/datadog.conf.example  > /etc/dd-agent/datadog.conf"
 cp /etc/dd-agent/conf.d/kafka.yaml.example /etc/dd-agent/conf.d/kafka.yaml 
