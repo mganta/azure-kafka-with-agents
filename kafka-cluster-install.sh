@@ -110,7 +110,7 @@ while getopts :k:b:z:i:c:p:h:d optname; do
       ZOOKEEPER_IP_PREFIX=${OPTARG}
       ;;
     c) # Number of instances
-	INSTANCE_COUNT=${OPTARG}
+	  INSTANCE_COUNT=${OPTARG}
 	;;
 	d)  #datadog subscription
       DATADOG_ID=${OPTARG}
