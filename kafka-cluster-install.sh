@@ -94,7 +94,7 @@ KAFKADIRSED="\/var\/lib\/kafkadir"
 DATADOG_ID="blah"
 
 #Loop through options passed
-while getopts :k:b:z:i:c:p:h:d optname; do
+while getopts :k:b:z:i:c:p:d:h optname; do
     log "Option $optname set with value ${OPTARG}"
   case $optname in
     k)  #kafka version
