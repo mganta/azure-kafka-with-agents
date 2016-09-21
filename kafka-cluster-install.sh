@@ -43,6 +43,7 @@ help()
     echo "-h view this help content"
     echo "-z zookeeper not kafka"
     echo "-i zookeeper Private IP address prefix"
+    echo "-d datadog subscriptionid"
 }
 
 log()
@@ -90,6 +91,7 @@ ZOOKEEPER_PORT="2181"
 KAFKADIR="/var/lib/kafkadir"
 # sed command issues need escape character \
 KAFKADIRSED="\/var\/lib\/kafkadir"
+DATADOG_ID="blah"
 
 #Loop through options passed
 while getopts :k:b:z:i:c:p:h optname; do
@@ -110,6 +112,9 @@ while getopts :k:b:z:i:c:p:h optname; do
     c) # Number of instances
 	INSTANCE_COUNT=${OPTARG}
 	;;
+	d)  #datadog subscription
+      DATADOG_ID=${OPTARG}
+      ;;
     h)  #show help
       help
       exit 2
@@ -300,3 +305,5 @@ else
 	#setup_datadisks
 	install_kafka
 fi
+
+bash datadog_install.sh $DATADOG_ID

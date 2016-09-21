@@ -122,30 +122,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash kafka-cluster-install.sh -z ','1',' -c ', variables('vmCount'),' -i ', variables('addprefix'), ' -b ', copyindex())]"
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), copyindex(), '/install_agent')]",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), copyindex())]"
-      ],
-      "copy": {
-        "name": "scriptCopyLoop",
-        "count": "[variables('vmCount')]"
-      },
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.5",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": "[parameters('osSettings').scripts]",
-          "commandToExecute": "[concat('bash datadog_install.sh ', parameters('agentSettings'))]"
+          "commandToExecute": "[concat('bash kafka-cluster-install.sh -z ','1',' -c ', variables('vmCount'),' -i ', variables('addprefix'), ' -b ', copyindex(), ' -d ', parameters('agentSettings'))]"
         }
       }
     }
