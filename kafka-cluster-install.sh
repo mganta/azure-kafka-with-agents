@@ -308,4 +308,5 @@ else
 fi
 
 cd $INSTALL_DIR
+echo $INSTALL_DIR
 bash datadog_install.sh $DATADOG_ID
