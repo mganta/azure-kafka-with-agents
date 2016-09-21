@@ -284,6 +284,7 @@ install_kafka()
 #NOTE: These first three could be changed to run in parallel
 #      Future enhancement - (export the functions and use background/wait to run in parallel)
 
+INSTALL_DIR=`pwd`
 
 update_system_settings
 
@@ -306,4 +307,5 @@ else
 	install_kafka
 fi
 
+cd $INSTALL_DIR
 bash datadog_install.sh $DATADOG_ID
