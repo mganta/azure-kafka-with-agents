@@ -32,7 +32,7 @@
     "vmName": "[concat(parameters('commonSettings').namespace, 'vm')]",
     "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
     "vmSize": "Standard_DS4_V2",
-    "vmCount": 3
+    "vmCount": 6
   },
   "resources": [
     {
