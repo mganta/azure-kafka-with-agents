@@ -146,9 +146,10 @@ update_system_settings()
 	echo "net.core.wmem_max=67108864" >> /etc/sysctl.conf
 	echo "net.core.rmem_max=67108864" >> /etc/sysctl.conf
 	echo "net.ipv4.tcp_rmem= 10240 87380 33554432" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_wmem= 10240 87380 33554432" >> /etc/sysctl.conf
-    echo "net.core.netdev_max_backlog=30000" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_max_syn_backlog=4096" >> /etc/sysctl.conf
+        echo "net.ipv4.tcp_wmem= 10240 87380 33554432" >> /etc/sysctl.conf
+        echo "net.core.netdev_max_backlog=30000" >> /etc/sysctl.conf
+        echo "net.ipv4.tcp_max_syn_backlog=4096" >> /etc/sysctl.conf
+        echo "fs.file-max = 100000"  >> /etc/sysctl.conf
     sysctl -p
     ifconfig eth0 txqueuelen 5000
 }
@@ -276,6 +277,7 @@ install_kafka()
 	export JMX_PORT=9999
 	sed -i '1iexport JMX_PORT=9999\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
 	sed -i '2iexport KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
+	sed -i '3iulimit -n 40000"\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
 	/usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh /usr/local/kafka/kafka_${kafkaversion}-${version}/config/server.properties &
 }
 
