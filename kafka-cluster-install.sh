@@ -277,7 +277,7 @@ install_kafka()
 	export JMX_PORT=9999
 	sed -i '1iexport JMX_PORT=9999\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
 	sed -i '2iexport KAFKA_HEAP_OPTS="-Xmx16G -Xms4G"\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
-	sed -i '3iulimit -n 40000"\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
+	sed -i '3iulimit -n 40000\' /usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-run-class.sh
 	/usr/local/kafka/kafka_${kafkaversion}-${version}/bin/kafka-server-start.sh /usr/local/kafka/kafka_${kafkaversion}-${version}/config/server.properties &
 }
 
