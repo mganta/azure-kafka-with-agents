@@ -203,7 +203,7 @@ install_zookeeper()
 	$(expand_ip_range_for_server_properties "${ZOOKEEPER_IP_PREFIX}-${INSTANCE_COUNT}")
 
 	echo $((${BROKER_ID}+1)) >> /var/lib/zookeeper/myid
-	echo "export JVMFLAGS=\"-Xmx8G -Xms2G\"" >> zookeeper-3.4.8/conf/java.env
+	echo "export JVMFLAGS=\"-Xmx4G -Xms2G\"" >> zookeeper-3.4.8/conf/java.env
 
 	zookeeper-3.4.8/bin/zkServer.sh start
 }

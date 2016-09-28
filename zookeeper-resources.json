@@ -32,6 +32,7 @@
     "nicName": "[concat(variables('namespace'), 'nic')]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
     "vmCount": "[parameters('machineSettings').vmCount]",
+    "vmSize": "Standard_DS2_V2",
     "addprefix": "[parameters('machineSettings').addprefix]"
   },
   "resources": [
@@ -76,7 +77,7 @@
           "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('machineSettings').availabilitySet)]"
         },
         "hardwareProfile": {
-          "vmSize": "[parameters('machineSettings').vmSize]"
+          "vmSize": "[variables('vmSize')]"
         },
         "osProfile": {
           "computerName": "[concat(variables('vmName'), copyindex())]",
