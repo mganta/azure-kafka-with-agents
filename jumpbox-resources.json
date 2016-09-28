@@ -31,7 +31,7 @@
     "nicName": "[concat(parameters('commonSettings').namespace, 'nic')]",
     "vmName": "[concat(parameters('commonSettings').namespace, 'vm')]",
     "publicIpName": "[concat(parameters('commonSettings').namespace, 'publicIp')]",
-    "vmSize": "Standard_DS4_V2",
+    "vmSize": "Standard_DS5_V2",
     "vmCount": 6
   },
   "resources": [
