@@ -43,7 +43,7 @@
       "apiVersion": "2015-06-15",
        "copy": {
          "name": "nicCopyLoop",
-         "count": "[variables('vmCount')]"
+         "count": 4
        },
       "location": "[resourceGroup().location]",
       "properties": {
@@ -92,7 +92,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyindex())]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), mod(copyindex(), 4))]"
       ],
       "copy": {
         "name": "vmCopyLoop",
