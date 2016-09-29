@@ -39,8 +39,12 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[concat(variables('storageAccountName'), copyindex())]",
       "apiVersion": "2015-06-15",
+       "copy": {
+         "name": "nicCopyLoop",
+         "count": "[variables('vmCount')]"
+       },
       "location": "[resourceGroup().location]",
       "properties": {
         "accountType": "Premium_LRS"
@@ -88,7 +92,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), copyindex())]"
       ],
       "copy": {
         "name": "vmCopyLoop",
