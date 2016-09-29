@@ -120,7 +120,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat('osDisk', variables('vmName'), copyIndex())]",
+            "name": "[concat('osDisk', variables('vmName'), copyindex())]",
             "createOption": "fromImage"
           },
           "dataDisks": [
