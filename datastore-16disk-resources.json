@@ -27,7 +27,7 @@
   "variables": {
     "namespace": "[parameters('commonSettings').namespace]",
     "subnetRef": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('subnet').vnet), '/subnets/', parameters('subnet').name)]",
-    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'))]",
+    "storageAccountName": "[concat(parameters('storageSettings').name, variables('namespace'),'md')]",
     "vmName": "[concat(variables('namespace'), 'vm')]",
     "nicName": "[concat(variables('namespace'), 'nic')]",
     "adminUsername": "[parameters('commonSettings').adminUsername]",
@@ -39,12 +39,8 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[concat(variables('storageAccountName'), copyindex())]",
+      "name": "[variables('storageAccountName')]",
       "apiVersion": "2015-06-15",
-       "copy": {
-         "name": "nicCopyLoop",
-         "count": 4
-       },
       "location": "[resourceGroup().location]",
       "properties": {
         "accountType": "Premium_LRS"
@@ -92,7 +88,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'), mod(copyindex(), 4))]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "copy": {
         "name": "vmCopyLoop",
