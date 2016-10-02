@@ -24,7 +24,7 @@
         "count": "[parameters('storageSettings').count]"
       },
       "properties": {
-        "accountType": "Standard_LRS"
+        "accountType": "Premium_LRS"
       }
     },
     {
